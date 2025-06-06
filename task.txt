@@ -1,0 +1,15 @@
+I.
+- Wygeneruj 2 spójne eulerowskie i hamiltonowskie (jednocześnie) grafy nieskierowane o n wierzchołkach;
+- współczynnik nasycenia krawędziami w grafach powinien być równy odpowiednio 30% (graf rzadki) i 70% (graf gęsty);
+(reprezentację grafu może być dowolna);
+- zaimplementuj algorytm A znajdowania cyklu Eulera w grafie,
+- zaimplementuj algorytm B z powracaniem znajdowania pierwszego cyklu Hamiltona w grafie,
+- dokonaj pomiaru czasu działania obu algorytmów dla 15 punktow pomiarowych, wyniki przedstaw na dwóch wykresach t=f(n) dla różnego nasycenia grafu.
+(wykres 1 - algorytmy A i B dla 30%, wykres 2 - alg. A i B dla 70%)
+Do jakiej klasy problemów należą problemy znajdowania cyklu Eulera i Hamilona w grafie?
+Przedstaw obserwacje związane z działaniem obu algorytmów w zależności od nasycenia grafu.
+
+II.
+- utwórz hamiltonowski graf nieskierowany (z nasyceniem krawędziami równym 50%),
+- znajdz wszystkie możliwe cykle Hamiltona w grafie stosując algorytm B (przeszukanie wszystkich możliwych ścieżek),
+- wyniki przedstaw na wykresie t=f(n).
