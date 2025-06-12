@@ -1,11 +1,12 @@
-import os, math, time
+import os, math, time, threading, pprint, copy
 from Graph import Point
 from draw_graph import main_draw
 
 def get_data_from_file(file_name='euler.txt'):
     result = ''
+    file_path = os.path.join(os.getcwd(), file_name)
     try:
-        with open(os.getcwd() + "\\" + file_name) as f:
+        with open(file_path) as f:
             result = f.read()
     except:
         pass
@@ -34,6 +35,8 @@ def connect_points(points):
         point.connections = list(filter(lambda a: type(a) == Point, point.connections))
     return points
 
+
+
 def main():
     files = ['euler.txt', 'euler copy.txt']
     all_data = []
@@ -44,8 +47,17 @@ def main():
             continue
         all_data.append(connect_points(convert_data(data)))
     if len(all_data) > 0:
+        solve_euler_th = threading.Thread(target=solve_euler, args=[all_data], daemon=True)
+        solve_euler_th.start()
         main_draw(all_data)
 
+
+def solve_euler(all_graphs):
+    all_graphs_state = copy.deepcopy(all_graphs)
+    for g_id, graph in enumerate(all_graphs):
+        print()
+        for p_id, point in enumerate(graph):
+            print(point.connections)
 
 if __name__ == '__main__':
     id = int(round(time.time(), 0))
