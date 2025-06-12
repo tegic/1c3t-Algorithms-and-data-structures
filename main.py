@@ -55,9 +55,14 @@ def main():
 def solve_euler(all_graphs):
     all_graphs_state = copy.deepcopy(all_graphs)
     for g_id, graph in enumerate(all_graphs):
-        print()
+        euler = []
         for p_id, point in enumerate(graph):
-            print(point.connections)
+            found_euler = False
+            while True:
+                pass
+            if found_euler:
+                break
+
 
 if __name__ == '__main__':
     id = int(round(time.time(), 0))
