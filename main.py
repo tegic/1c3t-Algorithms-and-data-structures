@@ -2,6 +2,11 @@ import os, math, time, threading, pprint, copy, random
 from Graph import Point
 from draw_graph import main_draw
 from alghorithms import find_eulerian_path, find_hamiltonian_cycle
+from tqdm import tqdm
+
+UI = False
+do_generate = True
+
 
 def get_data_from_file(file_name='euler.txt'):
     result = ''
@@ -51,10 +56,14 @@ def measure_time(fun_to_measure, *args):
 
 def main():
     files = []
-    for i in range(10, 25):
-        files.append(generate_graph(i, 0.3))
-    # for i in range(10, 25):
-    #     files.append(generate_graph(i, 0.3))
+    if do_generate:
+        for i in tqdm(range(10, 41, 2)):
+            files.append(generate_graph(i, 0.5))
+        # for i in tqdm(range(10, 41, 2)):
+        #     files.append(generate_graph(i, 0.3))
+    else:
+        files.append("euler.txt")
+        files.append("euler copy.txt")
     all_data = []
     for file in files:
         data = get_data_from_file(file)
@@ -63,7 +72,6 @@ def main():
             continue
         all_data.append(connect_points(convert_data(data)))
     if len(all_data) > 0:
-        UI = True
         if UI:
             solve_euler_th = threading.Thread(target=solve_euler, args=[all_data], daemon=True)
             solve_euler_th.start()
@@ -94,6 +102,59 @@ def generate_graph(size=4, max_percentage=1):
         for l in ret_result:
             f.write(str(l))
     return file_name
+
+
+
+# def generate_graph(size=4, max_percentage=1.0):
+#     # Создаём пустую матрицу смежности
+#     matrix = [[0 for _ in range(size)] for _ in range(size)]
+
+#     # Шаг 1: создаём цикл, проходящий по всем вершинам (гамильтонов цикл)
+#     nodes = list(range(size))
+#     random.shuffle(nodes)
+#     for i in range(size):
+#         a = nodes[i]
+#         b = nodes[(i + 1) % size]
+#         matrix[a][b] = matrix[b][a] = 1
+
+#     # Шаг 2: добавим рёбра, пока не достигнем нужной плотности и все степени — чётные
+#     def current_edge_count():
+#         return sum(sum(row) for row in matrix) // 2
+
+#     max_edges = int((size * (size - 1)) / 2 * max_percentage)
+
+#     while current_edge_count() < max_edges:
+#         a, b = random.sample(range(size), 2)
+#         if matrix[a][b] == 0:
+#             matrix[a][b] = matrix[b][a] = 1
+
+#             # проверка: все степени должны быть чётными
+#             degrees = [sum(row) for row in matrix]
+#             if any(d % 2 != 0 for d in degrees):
+#                 # отменить добавление ребра
+#                 matrix[a][b] = matrix[b][a] = 0
+
+#     # Проверка на связность (DFS)
+#     def is_connected(matrix):
+#         visited = set()
+#         def dfs(v):
+#             visited.add(v)
+#             for u, edge in enumerate(matrix[v]):
+#                 if edge == 1 and u not in visited:
+#                     dfs(u)
+#         dfs(0)
+#         return len(visited) == size
+
+#     if not is_connected(matrix):
+#         return generate_eulerian_hamiltonian_graph(size, max_percentage)
+
+#     # Запись в файл
+#     file_name = f"{size}x{size}-{int(max_percentage*100)}.txt"
+#     with open(os.path.join(os.getcwd(), file_name), "w") as f:
+#         for row in matrix:
+#             f.write(" ".join(map(str, row)) + "\n")
+    
+#     return file_name
 
 
 def solve_euler(all_graphs):
